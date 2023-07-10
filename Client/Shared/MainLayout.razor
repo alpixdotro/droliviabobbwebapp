@@ -1,17 +1,54 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
 
-<div class="page">
-    <div class="sidebar">
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Color="Color.Primary" Fixed="false">
+        <MudIconButton Icon="@Icons.Material.Filled.Apps" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        alpixapps.DEV
+        <MudSpacer />
+        <AuthorizeView>
+            <Authorized>
+                <MudTooltip Text="Authenticated">
+                    <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit">
+                        <MudText Typo="Typo.h6" Class="px-4">Hello,</MudText>
+                        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">@context.User.Identity.Name</MudText>
+                        <MudMenuItem Href="/user-profile">Profile</MudMenuItem>
+                        <MudMenuItem Href="/about">About</MudMenuItem>
+                        <MudIconButton Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Inherit" Href="/.auth/logout?post_logout_redirect_uri=/" />
+                    </MudMenu>
+                </MudTooltip>
+            </Authorized>
+            <NotAuthorized>
+                <MudTooltip Text="Tap for login">
+                    <MudIconButton Icon="@Icons.Material.Filled.NoAccounts" Color="Color.Inherit" Href="/login-providers" />
+                </MudTooltip>
+            </NotAuthorized>
+        </AuthorizeView>
+
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+    <MudScrollToTop>
+        <MudFab Color="Color.Tertiary" Icon="@Icons.Material.Filled.ArrowCircleUp" />
+    </MudScrollToTop>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+}

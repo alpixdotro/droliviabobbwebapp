@@ -1,0 +1,25 @@
+﻿@page "/login-providers"
+
+@{
+
+    var providers = new Dictionary<string, string[]>
+    {
+        {"microsoft",new string[3]{"windows","aad","Azure AD"} }
+    };
+}
+
+<MudGrid Justify="Justify.Center">
+    <MudItem>
+        <MudText Typo="Typo.h2" Align="Align.Center">Log in.</MudText>
+        <MudText Typo="Typo.subtitle1" Align="Align.Center">Please choose your provider</MudText>
+        <MudText Typo="Typo.h2" Align="Align.Center">.</MudText>
+        @foreach (var provider in providers)
+        {
+            var href = $"/.auth/login/{provider.Value[1]}";
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit" Href="@href">Sign in with @provider.Value[2]</MudButton>
+        }
+    </MudItem>
+</MudGrid>
+
+
+
