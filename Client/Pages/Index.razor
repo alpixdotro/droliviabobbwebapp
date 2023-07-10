@@ -1,82 +1,45 @@
 ﻿@page "/"
 
-<PageTitle>@pageTitle</PageTitle>
+<PageTitle>Home</PageTitle>
 
-
-<MudContainer Class="mt-16">
-    <MudText Typo="Typo.h1" Align="Align.Center" GutterBottom="true">hello.</MudText>
-    <MudGrid Class="mt-8">
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+    <MudGrid>
         <MudItem xs="12" sm="6" md="4">
-            <MudCard Elevation="25" Class="rounded-lg pb-4">
-                <MudCardContent>
-                    <div class="d-flex justify-center">
-                        <MudImage Src="images/powershell_logo.png" Class="rounded-lg" Fluid="true" Style="max-width: 50%; height: auto;"></MudImage>
-                    </div>
-                    <MudPaper Width="100%">
-                        <MudList Clickable="@Clickable" Dense="@Dense" DisableGutters="@Gutters">
-                            <MudListItem Text="Proficient in PowerShell scripting" Icon="@Icons.Material.Filled.Description" />
-                            <MudListItem Text="Extensive experience in PS automation" Icon="@Icons.Material.Filled.Settings" />
-                            <MudListItem Text="Strong problem-solving skills" Icon="@Icons.Material.Filled.SyncProblem"  />
-                        </MudList>
-                    </MudPaper>
-                </MudCardContent>
-                <MudCardActions Class="d-flex justify-center">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" Style="width:50%;">Learn more</MudButton>
-                </MudCardActions>
-            </MudCard>
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudCard Elevation="25" Class="rounded-lg pb-4">
-                <MudCardContent>
-                    <div class="d-flex justify-center">
-                        <MudImage Src="images/Csharp_Logo.png" Class="rounded-lg" Fluid="true" Style="max-width: 50%; height: auto;"></MudImage>
-                    </div>
-                    <MudPaper Width="100%">
-                        <MudList Clickable="@Clickable" Dense="@Dense" DisableGutters="@Gutters">
-                            <MudListItem Text="Proficient in PowerShell scripting" Icon="@Icons.Material.Filled.Description" />
-                            <MudListItem Text="Extensive experience in PS automation" Icon="@Icons.Material.Filled.Settings" />
-                            <MudListItem Text="Strong problem-solving skills" Icon="@Icons.Material.Filled.SyncProblem" />
-                        </MudList>
-                    </MudPaper>
-                </MudCardContent>
-                <MudCardActions Class="d-flex justify-center">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" Style="width:50%;">Learn more</MudButton>
-                </MudCardActions>
-            </MudCard>
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
         </MudItem>
         <MudItem xs="12" sm="12" md="4">
-            <MudCard Elevation="25" Class="rounded-lg pb-4">
-                <MudCardContent>
-                    <div class="d-flex justify-center">
-                        <MudImage Src="images/azure_logo.png" Class="rounded-lg" Fluid="true" Style="max-width: 50%; height: auto;"></MudImage>
-                    </div>
-                    <MudPaper Width="100%">
-                        <MudList Clickable="@Clickable" Dense="@Dense" DisableGutters="@Gutters">
-                            <MudListItem Text="Proficient in PowerShell scripting" Icon="@Icons.Material.Filled.Description" />
-                            <MudListItem Text="Extensive experience in PS automation" Icon="@Icons.Material.Filled.Settings" />
-                            <MudListItem Text="Strong problem-solving skills" Icon="@Icons.Material.Filled.SyncProblem" />
-                        </MudList>
-                    </MudPaper>
-                </MudCardContent>
-                <MudCardActions Class="d-flex justify-center">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" Style="width:50%;">Learn more</MudButton>
-                </MudCardActions>
-            </MudCard>
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 100%"></MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
         </MudItem>
     </MudGrid>
 </MudContainer>
 
-   
-
-
-
 @code {
-    public bool Dense { get; set; }
-    public bool Clickable { get; set; }
-    public bool Gutters { get; set; }
-    bool disabled = false;
-    public string pageTitle = "home</>";
-    public int spacing { get; set; } = 2;
+
 
     // cmd
     // cd C:\Users\laszl\source\repos\ALPIX-BlazorWebAppOnAzure
