@@ -1,12 +1,12 @@
 ﻿@page "/fetchdata"
-@using BlazorApp.Shared 
+@using BlazorApp.Shared.Models
 @inject HttpClient Http
 
-<h1>Weather forecast</h1>
+<h1>Patients</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (forecasts == null)
+@if (patients == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -15,20 +15,20 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var patient in patients)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@patient.Id</td>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.Gender</td>
                 </tr>
             }
         </tbody>
@@ -36,13 +36,13 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts = new WeatherForecast[]{};
+    private Patient[] patients;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("/api/WeatherForecast") ?? new WeatherForecast[]{};
+            patients = await Http.GetFromJsonAsync<Patient[]>("/api/GetPatients");
         }
         catch (Exception ex)
         {

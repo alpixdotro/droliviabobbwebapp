@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlazorApp.Client.Models
+namespace BlazorApp.Shared.Models
 {
     public class Doctor
     {
@@ -12,8 +12,8 @@ namespace BlazorApp.Client.Models
         public string Email { get; set; }
 
 
-        public IObservable<Patient> Patients { get; set; }
-        public IObservable<Appointment> Appointments { get; set; }
+        public List<Patient> Patients { get; set; }
+        public List<Appointment> Appointments { get; set; }
 
         
     }

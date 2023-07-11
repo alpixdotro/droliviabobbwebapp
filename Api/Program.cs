@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Azure.Functions.Worker.Configuration;
+using Api;
 
 namespace ApiIsolated
 {
@@ -10,7 +9,10 @@ namespace ApiIsolated
         public static void Main()
         {
             var host = new HostBuilder()
-                .ConfigureFunctionsWorkerDefaults()
+                .ConfigureFunctionsWorkerDefaults(worker =>
+                {
+                    worker.Services.AddSingleton<MockDataService>();
+                })
                 .Build();
 
             host.Run();

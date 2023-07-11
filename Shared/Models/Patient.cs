@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BlazorApp.Client.Models
+namespace BlazorApp.Shared.Models
 {
     public class Patient
     {
@@ -38,12 +38,12 @@ namespace BlazorApp.Client.Models
 
         public int DoctorId { get; set; }
         public Doctor Doctor { get; set; }
-
+        
         // Patient medical records
-        public IObservable<MedicalRecord> MedicalRecords { get; set; }
+        public List<MedicalRecord> MedicalRecords { get; set; }
 
         // The following properties are used for the patient's appointments
-        public IObservable<Appointment> Appointments { get; set; }
+        public List<Appointment> Appointments { get; set; }
         
     }
 }
