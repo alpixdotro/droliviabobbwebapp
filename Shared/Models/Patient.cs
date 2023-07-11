@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlazorApp.Shared.Models;
+using System;
 using System.Collections.Generic;
 
 namespace BlazorApp.Client.Models
