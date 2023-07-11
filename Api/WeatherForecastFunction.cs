@@ -10,25 +10,25 @@ namespace ApiIsolated
 {
     public class HttpTrigger
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<HttpTrigger> _logger;
         private readonly MockDataService _dataService;
 
-        public HttpTrigger(ILoggerFactory loggerFactory, MockDataService dataService)
+        public HttpTrigger(ILogger<HttpTrigger> logger, MockDataService dataService)
         {
-            _logger = loggerFactory.CreateLogger<HttpTrigger>();
+            _logger = logger;
             _dataService = dataService;
         }
 
         [Function("GetPatients")]
-        public async Task<HttpResponseData> GetPatients([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+        public async Task<HttpResponseData> GetPatients([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
+            FunctionContext context)
         {
+            var response = req.CreateResponse(HttpStatusCode.OK);
             var patients = _dataService.Patients;
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(patients);
 
             return response;
         }
-
     }
 }

@@ -8,7 +8,8 @@
 
 @if (patients == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Loading: @error</em></p>
+    
 }
 else
 {
@@ -36,17 +37,19 @@ else
 }
 
 @code {
-    private Patient[] patients;
+    private List<Patient> patients;
+    private string error = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            patients = await Http.GetFromJsonAsync<Patient[]>("/api/GetPatients");
+            patients = await Http.GetFromJsonAsync<List<Patient>>("/api/GetPatients");
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+            error = ex.Message;
         }
     }
 }

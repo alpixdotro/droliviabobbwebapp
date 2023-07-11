@@ -1,49 +1,18 @@
-﻿using BlazorApp.Shared.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
-namespace BlazorApp.Shared.Models
+public class Patient
 {
-    public class Patient
-    {
-        // The following properties are used for the patient's information
-        public int Id { get; set; } = 0;
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
-        public string PhoneNumber { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public long PersonalId { get; set; }
-        public string Gender { get; set; }
-        public string SpokenLanguage { get; set; }
-
-        public int Age {
-            get
-            {
-                var now = DateTime.Today;
-                var age = now.Year - DateOfBirth.Year;
-                if (DateOfBirth > now.AddYears(-age)) age--;
-                return age;
-            }
-        }
-
-
-        // The following properties are used for the patient's address
-        public string StreetAddress { get; set; }
-        public string City { get; set; }
-        public string StateProvince { get; set; }
-        public string PostalCode { get; set; }
-
-        // The following properties are used for the patient's doctor
-
-        public int DoctorId { get; set; }
-        public Doctor Doctor { get; set; }
-        
-        // Patient medical records
-        public List<MedicalRecord> MedicalRecords { get; set; }
-
-        // The following properties are used for the patient's appointments
-        public List<Appointment> Appointments { get; set; }
-        
-    }
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string PhoneNumber { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public long PersonalId { get; set; }
+    public string Gender { get; set; }
+    public string SpokenLanguage { get; set; }
+    public string StreetAddress { get; set; }
+    public string City { get; set; }
+    public string StateProvince { get; set; }
+    public string PostalCode { get; set; }
+    public int DoctorId { get; set; }
 }
