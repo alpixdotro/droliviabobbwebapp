@@ -38,7 +38,8 @@
     async Task List()
     {
         var endpoint = "/data-api/rest/Patient";
-        responseList = await Http.GetFromJsonAsync<List<Patient>>(endpoint);
+        var patientResponse = await Http.GetFromJsonAsync<PatientResponse>(endpoint);
+        responseList = patientResponse.Value;
     }
 
     // Other methods omitted for brevity
@@ -60,6 +61,11 @@
         public string StateProvince { get; set; }
         public string PostalCode { get; set; }
         public int DoctorId { get; set; }
+    }
+
+    public class PatientResponse
+    {
+        public List<Patient> Value { get; set; }
     }
 
     
