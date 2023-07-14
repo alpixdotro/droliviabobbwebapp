@@ -18,7 +18,7 @@ namespace BlazorApp.Client.Services
         public async Task<IEnumerable<PatientModel>> GetPatients()
         {
             var json = await _httpClient.GetStringAsync("data-api/rest/Patient");
-            var responseList = JsonConvert.DeserializeObject<PatientResponse>(json).ListOfPatients;
+            var responseList = JsonConvert.DeserializeObject<PatientResponse>(json).Value;
             return responseList;
         }
 
@@ -48,7 +48,7 @@ namespace BlazorApp.Client.Services
 
     public class PatientResponse
     {
-        [JsonProperty("Value")]
-        public IEnumerable<PatientModel> ListOfPatients { get; set; }
+        [JsonProperty("value")]
+        public List<PatientModel> Value { get; set; }
     }
 }

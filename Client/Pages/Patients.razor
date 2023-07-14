@@ -39,16 +39,11 @@
     List<PatientModel> responseList;
     string responseCreate;
 
-    public class PatientResponse
-    {
-        public List<PatientModel> Value { get; set; }
-    }
-    
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            responseList = await PatientService.GetPatients();
+            responseList = (await PatientService.GetPatients()).ToList();
         }
         catch (Exception ex)
         {
@@ -64,7 +59,7 @@
             await PatientService.DeletePatient(id);
 
             // Reload the patients list
-            responseList = await PatientService.GetPatients();
+            responseList = (await PatientService.GetPatients()).ToList();
             StateHasChanged();
         }
         catch (Exception ex)
@@ -73,8 +68,4 @@
             throw;
         }
     }
-
-
-
-   
 }
