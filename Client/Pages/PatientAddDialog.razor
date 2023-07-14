@@ -47,7 +47,7 @@
     PatientPostModel patient = new PatientPostModel();
 
     // Define the event
-    public event Action OnPatientAdded;
+    [Parameter] public Func<Task> OnPatientAdded { get; set; }
 
     protected override void OnInitialized()
     {
@@ -65,15 +65,18 @@
     {
         if (form.IsValid)
         {
-            //add doctorId based on logged in user
-            patient.DoctorId = 1; //hardcoded for now
+            // Add doctorId based on logged in user
+            patient.DoctorId = 1; // Hardcoded for now
 
             await PatientService.AddPatient(patient);
-            
-            // Raise the event after the patient is added
-            OnPatientAdded?.Invoke();
+
+            // Invoke the callback to notify the parent component
+            if (OnPatientAdded != null)
+            {
+                await OnPatientAdded.Invoke();
+            }
+
             MudDialog.Close(DialogResult.Ok(true));
-            
         }
     }
 }

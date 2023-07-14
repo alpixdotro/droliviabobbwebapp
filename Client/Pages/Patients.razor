@@ -36,7 +36,7 @@
 </MudDataGrid>
 
 <MudFab Icon="@Icons.Material.Filled.Add" Color="Color.Primary" Size="Size.Medium" OnClick="@OpenDialog" />
-<PatientAddDialog @ref="patientAddDialog" OnPatientAdded="RefreshPatientList" />
+<PatientAddDialog OnPatientAdded="@RefreshPatients" />
 
 @code {
     MudDialogInstance _dialog;
@@ -48,13 +48,19 @@
     {
         try
         {
-            responseList = (await PatientService.GetPatients()).ToList();
+            await RefreshPatients();
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error: {ex.Message}");
             throw;
         }
+    }
+
+    async Task RefreshPatients()
+    {
+        responseList = (await PatientService.GetPatients()).ToList();
+        StateHasChanged();
     }
 
     async Task Delete(int id)
@@ -79,10 +85,4 @@
         DialogService.Show<PatientAddDialog>("Add New Patient");
     }
 
-    async Task RefreshPatientList()
-    {
-        // Refresh the patient list
-        responseList = (await PatientService.GetPatients()).ToList();
-        StateHasChanged();
-    }
 }
