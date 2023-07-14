@@ -19,7 +19,7 @@
                 <MudTextField @bind-Value="patient.EmailAddress" Label="Email" Required="false" />
                 <MudDatePicker @bind-Date="patient.DateOfBirth" Placeholder="Date of birth" />
                 <MudTextField @bind-Value="patient.PersonalId" Label="CNP" Required="true" />
-                <MudSelect Dense="true" T="string" Label="Gender" Variant="Variant.Text">
+                <MudSelect Dense="true" T="string" Label="Gender" Variant="Variant.Text" @bind-Value="patient.Gender">
                     <MudSelectItem Value="@("Male")" />
                     <MudSelectItem Value="@("Female")" />
                 </MudSelect>
