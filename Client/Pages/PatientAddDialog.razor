@@ -66,6 +66,7 @@
             patient.DoctorId = 1; //hardcoded for now
 
             await PatientService.AddPatient(patient);
+            
             MudDialog.Close(DialogResult.Ok(true));
         }
     }
