@@ -10,6 +10,7 @@
             <MudForm @ref="form" OnValidSubmit="Submit">
                 <MudTextField @bind-Value="patient.FirstName" Label="First Name" Required="true" />
                 <MudTextField @bind-Value="patient.LastName" Label="Last Name" Required="true" />
+                
                 <!-- Add other necessary fields here -->
             </MudForm>
         </DialogContent>
@@ -25,6 +26,13 @@
 
     MudForm form;
     PatientModel patient = new PatientModel();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        form = new MudForm();
+        patient = new PatientModel();
+    }
 
     void Cancel()
     {
