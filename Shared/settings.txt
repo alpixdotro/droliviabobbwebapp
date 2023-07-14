@@ -1,0 +1,6 @@
+username: alpixapps_dev_admin
+pw: Yp8Br12c1109#oli
+
+connectionstring: Server=droliviabobbmysql.mysql.database.azure.com;User ID=alpixapps_dev_admin;Password=Yp8Br12c1109#oli;Database=droliviabobbdb;SSL Mode=Required
+
+Server="droliviabobbmysql.mysql.database.azure.com";UserID = "alpixapps_dev_admin";Password="Yp8Br12c1109#oli";Database="droliviabobbdb";SslMode=Required;SslCa="DigiCertGlobalRootCA.crt.pem";

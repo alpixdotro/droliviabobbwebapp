@@ -30,6 +30,7 @@ jobs:
           app_location: "Client" # App source code path
           api_location: "Api" # Api source code path - optional
           output_location: "wwwroot" # Built app content directory - optional
+          data_api_location: "Api" # Api location of your SwaApi implementation if you have one
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
