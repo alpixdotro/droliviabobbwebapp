@@ -5,6 +5,7 @@
 @using System.Text;
 @using System.Threading.Tasks;
 @inject PatientService PatientService
+@inject IDialogService DialogService
 
 @inject HttpClient Http
 
@@ -34,8 +35,11 @@
     </Columns>
 </MudDataGrid>
 
+<MudFab Icon="@Icons.Material.Filled.Add" Color="Color.Primary" Size="Size.Medium" OnClick="@OpenDialog" />
+
 
 @code {
+    MudDialogInstance _dialog;
     List<PatientModel> responseList;
     string responseCreate;
 
@@ -67,5 +71,10 @@
             Console.WriteLine($"Error: {ex.Message}");
             throw;
         }
+    }
+
+    void OpenDialog()
+    {
+        DialogService.Show<PatientAddDialog>("Add New Patient");
     }
 }

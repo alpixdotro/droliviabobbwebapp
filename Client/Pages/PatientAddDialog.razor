@@ -1,0 +1,42 @@
+﻿@page "/newpatient"
+
+@using BlazorApp.Shared.Data.Models
+@using BlazorApp.Client.Services
+@inject PatientService PatientService
+
+<CascadingValue Value="MudDialog">
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="form" OnValidSubmit="Submit">
+                <MudTextField @bind-Value="patient.FirstName" Label="First Name" Required="true" />
+                <MudTextField @bind-Value="patient.LastName" Label="Last Name" Required="true" />
+                <!-- Add other necessary fields here -->
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Disabled="!form.IsValid">Add Patient</MudButton>
+            <MudButton ButtonType="ButtonType.Reset" Color="Color.Secondary" OnClick="Cancel">Cancel</MudButton>
+        </DialogActions>
+    </MudDialog>
+</CascadingValue>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    MudForm form;
+    PatientModel patient = new PatientModel();
+
+    void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    async Task Submit()
+    {
+        if (form.IsValid)
+        {
+            await PatientService.AddPatient(patient);
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+}
