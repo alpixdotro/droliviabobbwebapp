@@ -44,13 +44,13 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     MudForm form;
-    PatientModel patient = new PatientModel();
+    PatientPostModel patient = new PatientPostModel();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         form = new MudForm();
-        patient = new PatientModel();
+        patient = new PatientPostModel();
     }
 
     void Cancel()

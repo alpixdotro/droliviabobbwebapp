@@ -1,6 +1,5 @@
 ﻿using BlazorApp.Shared.Data.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
@@ -30,24 +29,16 @@ namespace BlazorApp.Client.Services
             return await _httpClient.GetFromJsonAsync<PatientModel>($"data-api/rest/Patient/Id/{id}");
         }
 
-        public async Task<PatientModel> AddPatient(PatientModel patient)
+        public async Task<PatientModel> AddPatient(PatientPostModel patient)
         {
-            // Exclude the 'Id' field from the JSON serialization
-            var jsonSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                }
-            };
-            var payload = JsonConvert.SerializeObject(patient, jsonSettings);
-
-            var response = await _httpClient.PostAsync("data-api/rest/Patient/", new StringContent(payload, Encoding.UTF8, "application/json"));
+            var payload = JsonConvert.SerializeObject(patient);
+            var response = await _httpClient.PostAsync("data-api/rest/Patient", new StringContent(payload, Encoding.UTF8, "application/json"));
 
             if (!response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"AddPatient error: {response.StatusCode} - {responseContent}");
+                // You can throw an exception or handle the error as needed
                 throw new Exception($"AddPatient failed: {response.StatusCode} - {responseContent}");
             }
 
