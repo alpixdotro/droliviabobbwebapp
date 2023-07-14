@@ -79,7 +79,10 @@
 
 
         // Use Newtonsoft.Json to serialize the data object to a JSON string
-        var jsonString = JsonConvert.SerializeObject(data);
+            var jsonString = JsonConvert.SerializeObject(data, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
 
         var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
@@ -96,7 +99,6 @@
 
         
         responseCreate = "Created entry: " + result.EmailAddress;
-            response.EnsureSuccessStatusCode();
         }
         catch (HttpRequestException ex)
         {
