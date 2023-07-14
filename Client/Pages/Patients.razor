@@ -5,53 +5,47 @@
 @inject HttpClient Http
 
 <PageTitle>Patients</PageTitle>
-
-<h1>Static Web Apps Database Operations</h1>
+<h1>SWA: Patients |  Database Operations</h1>
 <blockquote>
     Open the browser developer tools to see the API responses.
 </blockquote>
-<div>
-    <button @onclick="List">List</button>
-    <!-- Other buttons omitted for brevity -->
-    @if (responseList != null)
-    {
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in responseList)
-                {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.FirstName @item.LastName</td>
-                        <td>@item.PersonalId</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-</div>
 
-<div>
-    <button @onclick="Create">Create</button>
-    @if (responseCreate != null)
-    {
-        <p>@responseCreate</p>
-    }
-</div>
+
+<MudDataGrid Items="@responseList" Filterable="false" SortMode="@SortMode.None" Groupable="false">
+    <Columns>
+        <PropertyColumn Property="x => x.FullName" />
+        <PropertyColumn Property="x => x.EmailAddress" />
+        <PropertyColumn Property="x => x.City" Title="City" />
+        <TemplateColumn CellClass="d-flex justify-end">
+            <CellTemplate>
+                <MudStack Row>
+                    <MudButton Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Primary">Edit</MudButton>
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+
 @code {
-    List<Patient> responseList;
+
+    public record PatientRecord(string Name, string Email, string City);
+    IEnumerable<Patient> responseList;
     string responseCreate;
+    
+    protected override void OnInitialized()
+    {
+        List();
+        
+
+    }
 
     async Task List()
     {
         var endpoint = "/data-api/rest/Patient";
         var json = await Http.GetStringAsync(endpoint);
         responseList = JsonConvert.DeserializeObject<PatientResponse>(json).Value;
+
     }
 
     async Task Create()

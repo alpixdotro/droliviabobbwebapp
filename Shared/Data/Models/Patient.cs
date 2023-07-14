@@ -25,5 +25,6 @@ namespace BlazorApp.Shared.Data.Models
         public string StateProvince { get; set; }
         public string PostalCode { get; set; }
         public int DoctorId { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
     }
 }
