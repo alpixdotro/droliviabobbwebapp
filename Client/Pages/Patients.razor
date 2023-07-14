@@ -1,8 +1,10 @@
 ﻿@page "/patients"
+@using BlazorApp.Client.Services;
 @using BlazorApp.Shared.Data.Models;
 @using Newtonsoft.Json;
 @using System.Text;
 @using System.Threading.Tasks;
+@inject PatientService PatientService
 
 @inject HttpClient Http
 
@@ -34,16 +36,14 @@
 
 
 @code {
-
-    List<Patient> responseList;
+    PatientModel[] responseList;
     string responseCreate;
 
-    //on initialized
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            await ListAsync();
+            responseList = await PatientService.GetPatients();
         }
         catch (Exception ex)
         {
@@ -52,104 +52,24 @@
         }
     }
 
-    async Task ListAsync()
-    {
-        try
-        {
-            var endpoint = "/data-api/rest/Patient";
-            var json = await Http.GetStringAsync(endpoint);
-            responseList = JsonConvert.DeserializeObject<PatientResponse>(json).Value;
-        }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine($"Network Error: {ex.Message}");
-            throw;
-        }
-        catch (JsonException ex)
-        {
-            Console.WriteLine($"JSON Parse Error: {ex.Message}");
-            throw;
-        }
-    }
-
-    async Task Create()
-    {
-        var endpoint = "/data-api/rest/Patient";
-        HttpResponseMessage response = null;
-        try
-        {
-            var data = new Patient
-                {
-                    FirstName = "Olivia",
-                    LastName = "Bobb",
-                    PhoneNumber = "1234567890",
-                    EmailAddress = "test@email.com",
-                    DateOfBirth = new DateTime(1990, 1, 1),
-                    PersonalId = 1910109260017,
-                    Gender = "Female",
-                    SpokenLanguage = "English",
-                    StreetAddress = "123 Main St",
-                    City = "Targu-Mures",
-                    StateProvince = "Mures",
-                    PostalCode = "540000",
-                    DoctorId = 1
-                };
-
-
-            // Use Newtonsoft.Json to serialize the data object to a JSON string
-            var jsonString = JsonConvert.SerializeObject(data, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                });
-
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            response = await Http.PostAsync(endpoint, httpContent);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<Patient>(responseContent);
-
-            responseCreate = "Created entry: " + result.EmailAddress;
-        }
-        catch (HttpRequestException ex)
-        {
-            var errorContent = response?.Content != null ? await response.Content.ReadAsStringAsync() : "No response content";
-            Console.WriteLine($"Error: {ex.Message}. Response content: {errorContent}");
-            throw;
-        }
-        catch (JsonException ex)
-        {
-            Console.WriteLine($"JSON Parse Error: {ex.Message}");
-            throw;
-        }
-    }
-
     async Task Delete(int id)
     {
-        var endpoint = $"/data-api/rest/Patient/Id/{id}";
-        HttpResponseMessage response = null;
-
         try
         {
-            response = await Http.DeleteAsync(endpoint);
-            response.EnsureSuccessStatusCode();
-
-            Console.WriteLine("Successfully deleted patient with ID: " + id);
+            await PatientService.DeletePatient(id);
 
             // Reload the patients list
-            await ListAsync();
+            responseList = await PatientService.GetPatients();
             StateHasChanged();
         }
-        catch (HttpRequestException ex)
+        catch (Exception ex)
         {
-            var errorContent = response?.Content != null ? await response.Content.ReadAsStringAsync() : "No response content";
-            Console.WriteLine($"Error: {ex.Message}. Response content: {errorContent}");
+            Console.WriteLine($"Error: {ex.Message}");
             throw;
         }
     }
 
-    public class PatientResponse
-    {
-        public List<Patient> Value { get; set; }
-    }
+
+
+   
 }

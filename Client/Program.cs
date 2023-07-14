@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using BlazorApp.Client;
 using MudBlazor.Services;
 using Microsoft.Azure.Functions.Authentication.WebAssembly;
+using BlazorApp.Client.Services;
 
 public class Program
 {
@@ -15,6 +16,7 @@ public class Program
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["API_Prefix"] ?? builder.HostEnvironment.BaseAddress) });
         builder.Services.AddMudServices();
         builder.Services.AddStaticWebAppsAuthentication();
+        builder.Services.AddScoped<PatientService>();
 
         await builder.Build().RunAsync();
     }

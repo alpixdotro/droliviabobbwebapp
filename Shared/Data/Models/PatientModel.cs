@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Shared.Data.Models
 {
-    public class Patient
+    public class PatientModel
     {
         [Key]
         public int? Id { get; set; }

@@ -23,11 +23,11 @@ namespace Api.Data
             optionsBuilder.UseMySQL("Server=droliviabobbmysql.mysql.database.azure.com;User ID=alpixapps_dev_admin;Password=Yp8Br12c1109#oli;Database=droliviabobbdb");
         }
 
-        public DbSet<Patient> Patients { get; set; }
+        public DbSet<PatientModel> Patients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Patient>(entity =>
+            modelBuilder.Entity<PatientModel>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.FirstName).IsRequired();

@@ -29,7 +29,7 @@ namespace Api.Services
                 // Creates the database if not exists
                 context.Database.EnsureCreated();
 
-                var patient = new Patient
+                var patient = new PatientModel
                 {
                     FirstName = "Janos",
                     LastName = "Doerty",
