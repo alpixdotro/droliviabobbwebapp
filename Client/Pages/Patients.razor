@@ -138,6 +138,7 @@
 
             // Reload the patients list
             await ListAsync();
+            StateHasChanged();
         }
         catch (HttpRequestException ex)
         {
