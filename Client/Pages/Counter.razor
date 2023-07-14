@@ -1,5 +1,6 @@
 ﻿@page "/counter"
 @using Newtonsoft.Json;
+@using System.Text;
 @inject HttpClient Http
 
 <PageTitle>Counter</PageTitle>
@@ -26,6 +27,7 @@
                     <tr>
                         <td>@item.Id</td>
                         <td>@item.FirstName @item.LastName</td>
+                        <td>@item.PersonalId</td>
                     </tr>
                 }
             </tbody>
@@ -33,8 +35,16 @@
     }
 </div>
 
+<div>
+    <button @onclick="Create">Create</button>
+    @if (responseCreate != null)
+    {
+        <p>@responseCreate</p>
+    }
+</div>
 @code {
     List<Patient> responseList;
+    string responseCreate;
 
     async Task List()
     {
@@ -43,7 +53,54 @@
         responseList = JsonConvert.DeserializeObject<PatientResponse>(json).Value;
     }
 
-    // Other methods omitted for brevity
+    async Task Create()
+    {
+        var data = new Patient
+            {
+                Id = 1,
+                FirstName = "Olivia",
+                LastName = "Bobb",
+                PhoneNumber = "1234567890",
+                EmailAddress = "test@email.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                PersonalId = 1910109260017,
+                Gender = "Female",
+                SpokenLanguage = "English",
+                StreetAddress = "123 Main St",
+                City = "Targu-Mures",
+                StateProvince = "Mures",
+                PostalCode = "540000",
+                DoctorId = 1
+            };
+
+        var endpoint = "/data-api/rest/Person/";
+
+        // Use Newtonsoft.Json to serialize the data object to a JSON string
+        var jsonString = JsonConvert.SerializeObject(data);
+
+        var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+        var response = await Http.PostAsync(endpoint, httpContent);
+
+        // Ensure we have a successful status code
+        response.EnsureSuccessStatusCode();
+
+        // Read the response content as a string
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        // Deserialize the response string to an object using Newtonsoft.Json
+        var result = JsonConvert.DeserializeObject<Patient>(responseContent);
+        responseCreate = "Created entry: " + result.Id;
+    }
+    
+    
+
+    
+    
+    
+    
+    // update patient
+
     
 
     public class Patient
