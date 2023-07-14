@@ -1,4 +1,5 @@
 ﻿@page "/counter"
+@using Newtonsoft.Json;
 @inject HttpClient Http
 
 <PageTitle>Counter</PageTitle>
@@ -38,8 +39,8 @@
     async Task List()
     {
         var endpoint = "/data-api/rest/Patient";
-        var patientResponse = await Http.GetFromJsonAsync<PatientResponse>(endpoint);
-        responseList = patientResponse.Value;
+        var json = await Http.GetStringAsync(endpoint);
+        responseList = JsonConvert.DeserializeObject<PatientResponse>(json).Value;
     }
 
     // Other methods omitted for brevity
