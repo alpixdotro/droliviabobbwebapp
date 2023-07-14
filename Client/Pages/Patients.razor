@@ -95,7 +95,7 @@
         var result = JsonConvert.DeserializeObject<Patient>(responseContent);
 
         
-        responseCreate = "Created entry: " + result.Id;
+        responseCreate = "Created entry: " + result.EmailAddress;
             response.EnsureSuccessStatusCode();
         }
         catch (HttpRequestException ex)
