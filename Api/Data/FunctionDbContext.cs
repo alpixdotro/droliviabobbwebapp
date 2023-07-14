@@ -1,4 +1,4 @@
-﻿using Api.Data.Models;
+﻿using BlazorApp.Shared.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System;

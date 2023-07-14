@@ -1,5 +1,5 @@
 ﻿using Api.Data;
-using Api.Data.Models;
+using BlazorApp.Shared.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
