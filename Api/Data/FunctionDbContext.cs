@@ -33,7 +33,7 @@ namespace Api.Data
                 entity.Property(e => e.FirstName).IsRequired();
                 entity.Property(e => e.LastName).IsRequired();
                 entity.Property(e => e.PhoneNumber).IsRequired();
-                entity.Property(e => e.EmailAddress).IsRequired();
+                entity.Property(e => e.EmailAddress);
                 entity.Property(e => e.DateOfBirth).IsRequired();
                 entity.Property(e => e.PersonalId).IsRequired();
                 entity.Property(e => e.Gender).IsRequired();
@@ -41,7 +41,7 @@ namespace Api.Data
                 entity.Property(e => e.StreetAddress).IsRequired();
                 entity.Property(e => e.City).IsRequired();
                 entity.Property(e => e.StateProvince).IsRequired();
-                entity.Property(e => e.PostalCode).IsRequired();
+                entity.Property(e => e.PostalCode);
                 entity.Property(e => e.DoctorId).IsRequired();
 
 

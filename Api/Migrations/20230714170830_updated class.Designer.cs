@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(FunctionDbContext))]
-    [Migration("20230714120533_new")]
-    partial class @new
+    [Migration("20230714170830_updated class")]
+    partial class updatedclass
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace Api.Migrations
                 .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("BlazorApp.Shared.Data.Models.Patient", b =>
+            modelBuilder.Entity("BlazorApp.Shared.Data.Models.PatientModel", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()

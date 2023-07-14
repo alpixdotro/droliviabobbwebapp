@@ -8,8 +8,27 @@
     <MudDialog>
         <DialogContent>
             <MudForm @ref="form" OnValidSubmit="Submit">
-                <MudTextField @bind-Value="patient.FirstName" Label="First Name" Required="true" />
+                <MudTextField @bind-Value="patient.FirstName" Label="First Name" Required="true"/>
                 <MudTextField @bind-Value="patient.LastName" Label="Last Name" Required="true" />
+                <MudSelect Dense="true" T="string" Label="Spoken Language" Variant="Variant.Text">
+                    <MudSelectItem Value="@("Romanian")" />
+                    <MudSelectItem Value="@("Hungarian")" />
+                    <MudSelectItem Value="@("English")" />
+                </MudSelect>
+                <MudTextField @bind-Value="patient.PhoneNumber" Label="Phone" Required="true" />
+                <MudTextField @bind-Value="patient.EmailAddress" Label="Email" Required="false" />
+                <MudDatePicker @bind-Date="patient.DateOfBirth" Placeholder="Date of birth" />
+                <MudTextField @bind-Value="patient.PersonalId" Label="CNP" Required="true" />
+                <MudSelect Dense="true" T="string" Label="Gender" Variant="Variant.Text">
+                    <MudSelectItem Value="@("Male")" />
+                    <MudSelectItem Value="@("Female")" />
+                </MudSelect>
+                <MudTextField @bind-Value="patient.StreetAddress" Label="Street" Required="true" />
+                <MudTextField @bind-Value="patient.City" Label="City" Required="true" />
+                <MudTextField @bind-Value="patient.StateProvince" Label="County" Required="true" />
+                <MudTextField @bind-Value="patient.PostalCode" Label="Zip" Required="false" />
+                
+                
                 
                 <!-- Add other necessary fields here -->
             </MudForm>
@@ -43,6 +62,9 @@
     {
         if (form.IsValid)
         {
+            //add doctorId based on logged in user
+            patient.DoctorId = 1; //hardcoded for now
+
             await PatientService.AddPatient(patient);
             MudDialog.Close(DialogResult.Ok(true));
         }
