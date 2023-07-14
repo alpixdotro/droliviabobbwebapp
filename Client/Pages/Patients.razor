@@ -36,9 +36,14 @@
 
 
 @code {
-    PatientModel[] responseList;
+    List<PatientModel> responseList;
     string responseCreate;
 
+    public class PatientResponse
+    {
+        public List<PatientModel> Value { get; set; }
+    }
+    
     protected override async Task OnInitializedAsync()
     {
         try

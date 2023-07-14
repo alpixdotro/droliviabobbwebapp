@@ -1,5 +1,8 @@
 ﻿using BlazorApp.Shared.Data.Models;
+using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Json;
+using static System.Net.WebRequestMethods;
 
 namespace BlazorApp.Client.Services
 {
@@ -12,10 +15,13 @@ namespace BlazorApp.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<PatientModel[]> GetPatients()
+        public async Task<IEnumerable<PatientModel>> GetPatients()
         {
-            return await _httpClient.GetFromJsonAsync<PatientModel[]>("data-api/rest/Patient");
+            var json = await _httpClient.GetStringAsync("data-api/rest/Patient");
+            var responseList = JsonConvert.DeserializeObject<PatientResponse>(json).ListOfPatients;
+            return responseList;
         }
+
 
         public async Task<PatientModel> GetPatient(int id)
         {
@@ -38,5 +44,11 @@ namespace BlazorApp.Client.Services
             await _httpClient.DeleteAsync($"data-api/rest/Patient/Id/{id}");
         }
 
+    }
+
+    public class PatientResponse
+    {
+        [JsonProperty("Value")]
+        public IEnumerable<PatientModel> ListOfPatients { get; set; }
     }
 }
