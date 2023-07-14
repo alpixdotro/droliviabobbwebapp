@@ -30,8 +30,8 @@ namespace BlazorApp.Client.Services
 
         public async Task<PatientModel> AddPatient(PatientModel patient)
         {
-            var response = await _httpClient.PostAsync("data-api/rest/Patient/", JsonContent.Create(patient));
-            response.EnsureSuccessStatusCode();
+            var payload = JsonConvert.SerializeObject(patient);
+            var response = await _httpClient.PostAsync("data-api/rest/Patient", new StringContent(payload, System.Text.Encoding.UTF8, "application/json"));
             return await response.Content.ReadFromJsonAsync<PatientModel>();
         }
 
