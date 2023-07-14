@@ -2,6 +2,8 @@
 @using BlazorApp.Shared.Data.Models;
 @using Newtonsoft.Json;
 @using System.Text;
+@using System.Threading.Tasks;
+
 @inject HttpClient Http
 
 <PageTitle>Patients</PageTitle>
@@ -10,6 +12,10 @@
     Open the browser developer tools to see the API responses.
 </blockquote>
 
+@if (responseList == null)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+}
 
 <MudDataGrid Items="@responseList" Filterable="false" SortMode="@SortMode.None" Groupable="false">
     <Columns>
@@ -29,91 +35,97 @@
 
 @code {
 
-    public record PatientRecord(string Name, string Email, string City);
-    IEnumerable<Patient> responseList;
+    List<Patient> responseList;
     string responseCreate;
     
-    protected override void OnInitialized()
+    //on initialized
+    protected override async Task OnInitializedAsync()
     {
-        List();
-        
-
+        try
+        {
+            await ListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            throw;
+        }
     }
 
-    async Task List()
+    async Task ListAsync()
     {
-        var endpoint = "/data-api/rest/Patient";
-        var json = await Http.GetStringAsync(endpoint);
-        responseList = JsonConvert.DeserializeObject<PatientResponse>(json).Value;
-
+        try
+        {
+            var endpoint = "/data-api/rest/Patient";
+            var json = await Http.GetStringAsync(endpoint);
+            responseList = JsonConvert.DeserializeObject<PatientResponse>(json).Value;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Network Error: {ex.Message}");
+            throw;
+        }
+        catch (JsonException ex)
+        {
+            Console.WriteLine($"JSON Parse Error: {ex.Message}");
+            throw;
+        }
     }
 
     async Task Create()
     {
         var endpoint = "/data-api/rest/Patient";
-        var response = new HttpResponseMessage();
+        HttpResponseMessage response = null;
         try
-            {
+        {
             var data = new Patient
-            {
-                FirstName = "Olivia",
-                LastName = "Bobb",
-                PhoneNumber = "1234567890",
-                EmailAddress = "test@email.com",
-                DateOfBirth = new DateTime(1990, 1, 1),
-                PersonalId = 1910109260017,
-                Gender = "Female",
-                SpokenLanguage = "English",
-                StreetAddress = "123 Main St",
-                City = "Targu-Mures",
-                StateProvince = "Mures",
-                PostalCode = "540000",
-                DoctorId = 1
-            };
+                {
+                    FirstName = "Olivia",
+                    LastName = "Bobb",
+                    PhoneNumber = "1234567890",
+                    EmailAddress = "test@email.com",
+                    DateOfBirth = new DateTime(1990, 1, 1),
+                    PersonalId = 1910109260017,
+                    Gender = "Female",
+                    SpokenLanguage = "English",
+                    StreetAddress = "123 Main St",
+                    City = "Targu-Mures",
+                    StateProvince = "Mures",
+                    PostalCode = "540000",
+                    DoctorId = 1
+                };
 
 
-        // Use Newtonsoft.Json to serialize the data object to a JSON string
+            // Use Newtonsoft.Json to serialize the data object to a JSON string
             var jsonString = JsonConvert.SerializeObject(data, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 });
 
-        var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            response = await Http.PostAsync(endpoint, httpContent);
+            response.EnsureSuccessStatusCode();
 
-        response = await Http.PostAsync(endpoint, httpContent);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<Patient>(responseContent);
 
-        // Ensure we have a successful status code
-        response.EnsureSuccessStatusCode();
-
-        // Read the response content as a string
-        var responseContent = await response.Content.ReadAsStringAsync();
-
-        // Deserialize the response string to an object using Newtonsoft.Json
-        var result = JsonConvert.DeserializeObject<Patient>(responseContent);
-
-        
-        responseCreate = "Created entry: " + result.EmailAddress;
+            responseCreate = "Created entry: " + result.EmailAddress;
         }
         catch (HttpRequestException ex)
         {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Error: {ex.Message}. Response content: {errorContent}");
-                throw;
+            var errorContent = response?.Content != null ? await response.Content.ReadAsStringAsync() : "No response content";
+            Console.WriteLine($"Error: {ex.Message}. Response content: {errorContent}");
+            throw;
+        }
+        catch (JsonException ex)
+        {
+            Console.WriteLine($"JSON Parse Error: {ex.Message}");
+            throw;
         }
     }
-    
-    
-
-    
-    
-    
-    
-    // update patient
 
     public class PatientResponse
     {
         public List<Patient> Value { get; set; }
     }
-
-    
 }
