@@ -20,11 +20,12 @@
 <MudDataGrid Items="@responseList" Filterable="false" SortMode="@SortMode.None" Groupable="false">
     <Columns>
         <PropertyColumn Property="x => x.FullName" Title="Name" />
+        <PropertyColumn Property="x => x.Id" Title="ID" />
         <TemplateColumn CellClass="d-flex justify-end">
-            <CellTemplate>
+            <CellTemplate Context="contextData">
                 <MudStack Row>
                     <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" Size="Size.Small" />
-                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="@(() => { if (contextData.Item.Id.HasValue) { _ = Delete(contextData.Item.Id.Value); } else { Console.WriteLine("Cannot delete a patient without an ID"); } })" />
                 </MudStack>
             </CellTemplate>
         </TemplateColumn>
@@ -36,7 +37,7 @@
 
     List<Patient> responseList;
     string responseCreate;
-    
+
     //on initialized
     protected override async Task OnInitializedAsync()
     {
@@ -119,6 +120,29 @@
         catch (JsonException ex)
         {
             Console.WriteLine($"JSON Parse Error: {ex.Message}");
+            throw;
+        }
+    }
+
+    async Task Delete(int id)
+    {
+        var endpoint = $"/data-api/rest/Patient/{id}";
+        HttpResponseMessage response = null;
+
+        try
+        {
+            response = await Http.DeleteAsync(endpoint);
+            response.EnsureSuccessStatusCode();
+
+            Console.WriteLine("Successfully deleted patient with ID: " + id);
+
+            // Reload the patients list
+            await ListAsync();
+        }
+        catch (HttpRequestException ex)
+        {
+            var errorContent = response?.Content != null ? await response.Content.ReadAsStringAsync() : "No response content";
+            Console.WriteLine($"Error: {ex.Message}. Response content: {errorContent}");
             throw;
         }
     }
