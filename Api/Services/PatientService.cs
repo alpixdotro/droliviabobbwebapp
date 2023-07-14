@@ -31,9 +31,8 @@ namespace Api.Services
 
                 var patient = new Patient
                 {
-                    Id = 1,
-                    FirstName = "John",
-                    LastName = "Doe",
+                    FirstName = "Janos",
+                    LastName = "Doerty",
                     PhoneNumber = "1234567890",
                     EmailAddress = "test@email.com",
                     DateOfBirth = new DateTime(1990, 1, 1),
