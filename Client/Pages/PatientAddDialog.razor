@@ -10,7 +10,7 @@
             <MudForm @ref="form" OnValidSubmit="Submit">
                 <MudTextField @bind-Value="patient.FirstName" Label="First Name" Required="true"/>
                 <MudTextField @bind-Value="patient.LastName" Label="Last Name" Required="true" />
-                <MudSelect Dense="true" T="string" Label="Spoken Language" Variant="Variant.Text">
+                <MudSelect Dense="true" T="string" Label="Spoken Language" Variant="Variant.Text" @bind-Value="patient.SpokenLanguage">
                     <MudSelectItem Value="@("Romanian")" />
                     <MudSelectItem Value="@("Hungarian")" />
                     <MudSelectItem Value="@("English")" />
