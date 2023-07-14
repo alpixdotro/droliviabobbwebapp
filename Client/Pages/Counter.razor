@@ -37,7 +37,7 @@
 
     async Task List()
     {
-        var endpoint = "/data-api/rest/Person";
+        var endpoint = "/data-api/rest/Patient";
         responseList = await Http.GetFromJsonAsync<List<Patient>>(endpoint);
     }
 
