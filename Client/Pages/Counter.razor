@@ -1,18 +1,66 @@
 ﻿@page "/counter"
+@inject HttpClient Http
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
-
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<h1>Static Web Apps Database Operations</h1>
+<blockquote>
+    Open the browser developer tools to see the API responses.
+</blockquote>
+<div>
+    <button @onclick="List">List</button>
+    <!-- Other buttons omitted for brevity -->
+    @if (responseList != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in responseList)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.FirstName @item.LastName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
 
 @code {
-    private int currentCount = 0;
+    List<Patient> responseList;
 
-    private void IncrementCount()
+    async Task List()
     {
-        currentCount++;
+        var endpoint = "/data-api/rest/Person";
+        responseList = await Http.GetFromJsonAsync<List<Patient>>(endpoint);
     }
+
+    // Other methods omitted for brevity
+    
+
+    public class Patient
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public long PersonalId { get; set; }
+        public string Gender { get; set; }
+        public string SpokenLanguage { get; set; }
+        public string StreetAddress { get; set; }
+        public string City { get; set; }
+        public string StateProvince { get; set; }
+        public string PostalCode { get; set; }
+        public int DoctorId { get; set; }
+    }
+
+    
 }

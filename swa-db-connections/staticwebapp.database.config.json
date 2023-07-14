@@ -1,11 +1,11 @@
 {
   "$schema": "https://github.com/Azure/data-api-builder/releases/latest/download/dab.draft.schema.json",
   "data-source": {
-    "database-type": "mssql",
+    "database-type": "mysql",
     "options": {
       "set-session-context": false 
     },
-    "connection-string": "@env('Server=droliviabobbmysql.mysql.database.azure.com;User ID=alpixapps_dev_admin;Password=Yp8Br12c1109#oli;Database=droliviabobbdb')"
+    "connection-string": "@env('DATABASE_CONNECTION_STRING')"
   },
   "runtime": {
     "rest": {
@@ -29,11 +29,11 @@
     }
   },
   "entities": {
-    "Person": {
-      "source": "dbo.Patients",
+    "Patient": {
+      "source": "Patients",
       "permissions": [
         {
-          "actions": ["create", "read", "update", "delete"],
+          "actions": ["*"],
           "role": "anonymous"
         }
       ]
