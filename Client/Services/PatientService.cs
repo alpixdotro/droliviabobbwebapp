@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
+using System.Text;
 using static System.Net.WebRequestMethods;
 
 namespace BlazorApp.Client.Services
@@ -31,7 +32,16 @@ namespace BlazorApp.Client.Services
         public async Task<PatientModel> AddPatient(PatientModel patient)
         {
             var payload = JsonConvert.SerializeObject(patient);
-            var response = await _httpClient.PostAsync("data-api/rest/Patient", new StringContent(payload, System.Text.Encoding.UTF8, "application/json"));
+            var response = await _httpClient.PostAsync("data-api/rest/Patient", new StringContent(payload, Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"AddPatient error: {response.StatusCode} - {responseContent}");
+                // You can throw an exception or handle the error as needed
+                throw new Exception($"AddPatient failed: {response.StatusCode} - {responseContent}");
+            }
+
             return await response.Content.ReadFromJsonAsync<PatientModel>();
         }
 
