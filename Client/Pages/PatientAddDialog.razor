@@ -46,6 +46,9 @@
     MudForm form;
     PatientPostModel patient = new PatientPostModel();
 
+    // Define the event
+    public event Action OnPatientAdded;
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -67,7 +70,10 @@
 
             await PatientService.AddPatient(patient);
             
+            // Raise the event after the patient is added
+            OnPatientAdded?.Invoke();
             MudDialog.Close(DialogResult.Ok(true));
+            
         }
     }
 }

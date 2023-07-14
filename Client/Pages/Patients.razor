@@ -36,12 +36,13 @@
 </MudDataGrid>
 
 <MudFab Icon="@Icons.Material.Filled.Add" Color="Color.Primary" Size="Size.Medium" OnClick="@OpenDialog" />
-
+<PatientAddDialog @ref="patientAddDialog" OnPatientAdded="RefreshPatientList" />
 
 @code {
     MudDialogInstance _dialog;
     List<PatientModel> responseList;
     string responseCreate;
+    PatientAddDialog patientAddDialog;
 
     protected override async Task OnInitializedAsync()
     {
@@ -76,5 +77,12 @@
     void OpenDialog()
     {
         DialogService.Show<PatientAddDialog>("Add New Patient");
+    }
+
+    async Task RefreshPatientList()
+    {
+        // Refresh the patient list
+        responseList = (await PatientService.GetPatients()).ToList();
+        StateHasChanged();
     }
 }
