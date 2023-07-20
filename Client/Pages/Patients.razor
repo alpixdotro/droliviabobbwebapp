@@ -57,6 +57,7 @@
         }
     }
 
+
     async Task RefreshPatients()
     {
         responseList = (await PatientService.GetPatients()).ToList();
