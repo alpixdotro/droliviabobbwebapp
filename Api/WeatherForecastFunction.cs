@@ -29,7 +29,7 @@ namespace ApiIsolated
         public async Task<HttpResponseData> GetPatients([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
             FunctionContext context)
         {
-            
+            //test
             try
             {
                 _patientService.InsertData();
